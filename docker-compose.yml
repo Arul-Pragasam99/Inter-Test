@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+
+  app:
+    build: .                  # build image from our Dockerfile
+    ports:
+      - "3000:3000"           # expose to your machine
+    depends_on:
+      - mongo                 # wait for mongo to start first
+    environment:
+      - NODE_ENV=development
+
+  mongo:
+    image: mongo:6            # pull official MongoDB image (no Dockerfile needed)
+    ports:
+      - "27018:27017"         # optional: lets you connect with MongoDB Compass
+    volumes:
+      - mongo-data:/data/db   # persist data even after container stops
+
+volumes:
+  mongo-data:                 # declare the named volume
